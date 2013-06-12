@@ -15,6 +15,7 @@
 		shape = new MM.Polygon(), //Finished Polygon
 		_drawEvent, //Mousemove draw event
 		_endEvent, //Stop drawing "click" event
+		_startEvent, //Start drawing "click" event
 		_drawing = false; //Are we currently drawing
 
 
@@ -35,6 +36,8 @@
 			return; //Already drawing, do nothing
 		}
 		_drawing = true; //Start drawing;
+
+		shape.setLocations([]); //Empty the shape;
 
 		//Bind the drawing event to the mouse move.  Throttled to 100 ms
 		_drawEvent = MM.Events.addThrottledHandler(_map,"mousemove",function(e){
@@ -61,6 +64,7 @@
 		});
 	};
 
+
 	var _endDraw = function(cb) {
 
 		cb = cb || function() {}; //callback
@@ -73,16 +77,45 @@
 		}
 		previewLine.setLocations([]); //Empty out the preview line
 
-		shape.setLocations(shapePoints);
-		_drawing = false;
-		cb();
+		shape.setLocations(shapePoints); //Set the points on the new shape
+		_drawing = false; //No longer drawing
+		cb(); //Run the Callback
 	};
 
+	/*
+	 * Enter Drawing Mode
+	 * Registers the beginDraw event to the click action of the map
+	 */
 	this.enterDrawingMode = function(opts) {
-		var startEvent = MM.Events.addHandler(_map,"click",function(e){
-			MM.Events.removeHandler(startEvent);
+		_startEvent = MM.Events.addHandler(_map,"click",function(e){
+			MM.Events.removeHandler(_startEvent);
 			_beginDraw(opts);
 		});
+	};
+
+	/*
+	 * End drawing mode;
+	 */
+	this.endDrawingMode = function(opts) {
+		MM.Events.removeHandler(_startEvent);
+		if (_drawing) {
+			_drawing = false;
+			_endDraw();
+		}
+	};
+
+	/*
+	 * Get the shape
+	 */
+	this.getShape = function() {
+		return shape;
+	};
+
+	/*
+	 * Get the drawLayer
+	 */
+	this.getLayer = function() {
+		return drawLayer;
 	};
   };
 

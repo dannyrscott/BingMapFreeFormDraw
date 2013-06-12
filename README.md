@@ -14,7 +14,8 @@ In your web page:
 ```html
 <script src="dist/BingMapFFDraw.min.js"></script>
 <script>
-
+	//Pass in the Map object
+	var drawer = new BingDrawFF(map);
 </script>
 ```
 
@@ -22,9 +23,6 @@ In your code, you can attach BingMapFFDraw's methods to any object.
 
 
 ## Documentation
-_(Coming soon)_
-
-## Examples
 _(Coming soon)_
 
 ## Contributing
