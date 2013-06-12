@@ -5,7 +5,7 @@
 
   'use strict';
 
-  var BingDrawFF = function(map) {
+  var BingDrawFF = function(map, opts) {
 	var _map = map, //The Bing Map itself
 		_self = this, //holder for this
 		MM = Microsoft.Maps, //shorthand for Microsoft Map object
@@ -19,6 +19,9 @@
 		_drawing = false; //Are we currently drawing
 
 
+	var options = opts || {};
+	options.onDrawEnd = options.onDrawEnd || function() {};
+
 	_map.entities.push(drawLayer);  //Push the drawing layer to the map
 	drawLayer.push(previewLine); //Push the previewline to the drawing layer
 	drawLayer.push(shape); //Push the final shape to the drawing layer
@@ -28,7 +31,7 @@
 	 * _beginDraw function
 	 * Starts us drawing.
 	 */
-	var _beginDraw = function(opts) {
+	var _beginDraw = function() {
 		opts = opts || {};
 
 		var endCallback = opts.onDrawEnd || function() {}; //after drawing ends callback
@@ -65,9 +68,8 @@
 	};
 
 
-	var _endDraw = function(cb) {
+	var _endDraw = function() {
 
-		cb = cb || function() {}; //callback
 		//Remove Drawing Events
 		MM.Events.removeHandler(_drawEvent);
 		var shapePoints = previewLine.getLocations();
@@ -79,24 +81,24 @@
 
 		shape.setLocations(shapePoints); //Set the points on the new shape
 		_drawing = false; //No longer drawing
-		cb(); //Run the Callback
+		options.onDrawEnd(); //Run the Callback
 	};
 
 	/*
 	 * Enter Drawing Mode
 	 * Registers the beginDraw event to the click action of the map
 	 */
-	this.enterDrawingMode = function(opts) {
+	this.enterDrawingMode = function() {
 		_startEvent = MM.Events.addHandler(_map,"click",function(e){
 			MM.Events.removeHandler(_startEvent);
-			_beginDraw(opts);
+			_beginDraw();
 		});
 	};
 
 	/*
 	 * End drawing mode;
 	 */
-	this.endDrawingMode = function(opts) {
+	this.endDrawingMode = function() {
 		MM.Events.removeHandler(_startEvent);
 		if (_drawing) {
 			_drawing = false;
