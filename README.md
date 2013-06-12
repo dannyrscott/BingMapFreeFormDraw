@@ -41,6 +41,7 @@ BingDrawFF(Object Map, Object Options) - The Drawing Object Itself.  You pass in
 ```javascript
 var drawer = new BingDrawFF(map, opts);
 ```
+
 ##Methods
 enterDrawingMode - Enter "drawing mode".  Calling this function binds a click event to the map itself which starts the freeform draw.  Takes an optional options object.
 ```javascript
