@@ -37,6 +37,7 @@ In your code, you can attach BingMapFFDraw's methods to any object.
 BingDrawFF(Object Map, Object Options) - The Drawing Object Itself.  You pass in the map object created by new Microsoft.Maps
 ###Options
 * onDrawEnd - Callback when the polygon is finished.
+* polygon - Object containing the polygon options See http://msdn.microsoft.com/en-us/library/gg427596.aspx
 ```javascript
 var drawer = new BingDrawFF(map, opts);
 ```
