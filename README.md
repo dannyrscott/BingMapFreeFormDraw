@@ -9,21 +9,32 @@ Download the [production version][min] or the [development version][max].
 [min]: https://raw.github.com/dannyrscott/BingMapFreeFormDraw/master/dist/BingMapFFDraw.min.js
 [max]: https://raw.github.com/dannyrscott/BingMapFreeFormDraw/master/dist/BingMapFFDraw.js
 
-In your web page:
-
-```html
-<script src="dist/BingMapFFDraw.min.js"></script>
-<script>
-	//Pass in the Map object
-	var drawer = new BingDrawFF(map);
-</script>
-```
 
 In your code, you can attach BingMapFFDraw's methods to any object.
 
 
 ## Documentation
-_(Coming soon)_
+```html
+<script src="dist/BingMapFFDraw.min.js"></script>
+<script>
+	//Pass in the Map object
+	var drawer = new BingDrawFF(map);
+
+	//Call the Start drawing event
+	drawer.enterDrawingMode({
+		onDrawEnd: function() {
+			console.log('I do this after i am done drawing');
+		}
+	});
+
+	//Get the Layer
+	drawer.getLayer();
+
+	//Get the Shape
+	drawer.getShape();
+</script>
+```
+
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
