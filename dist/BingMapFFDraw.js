@@ -1,4 +1,4 @@
-/*! BingMapFFDraw - v0.0.1 - 2013-06-12
+/*! BingMapFFDraw - v0.0.1 - 2013-06-13
 * https://github.com/dannyrscott/BingMapFreeFormDraw
 * Copyright (c) 2013 Danny Scott; Licensed MIT */
 (function(exports) {
@@ -16,8 +16,8 @@
 		_drawEvent, //Mousemove draw event
 		_endEvent, //Stop drawing "click" event
 		_startEvent, //Start drawing "click" event
-		_drawing = false; //Are we currently drawing
-
+		_drawing = false, //Are we currently drawing
+		_inDrawingMode = false; //Are we in drawing mode
 
 	var options = opts || {};
 	options.onDrawEnd = options.onDrawEnd || function() {};
@@ -66,6 +66,7 @@
 		_endEvent = MM.Events.addHandler(_map,"click",function(e){
 			_endDraw(endCallback); //Stop drawing
 			MM.Events.removeHandler(_endEvent); //Remove the event
+			_self.endDrawingMode();
 		});
 	};
 
@@ -91,6 +92,10 @@
 	 * Registers the beginDraw event to the click action of the map
 	 */
 	this.enterDrawingMode = function() {
+		if (_inDrawingMode) {
+			return; // already in this mode
+		}
+		_inDrawingMode = true;
 		_startEvent = MM.Events.addHandler(_map,"click",function(e){
 			MM.Events.removeHandler(_startEvent);
 			_beginDraw();
@@ -101,6 +106,7 @@
 	 * End drawing mode;
 	 */
 	this.endDrawingMode = function() {
+		_inDrawingMode = false;
 		MM.Events.removeHandler(_startEvent);
 		if (_drawing) {
 			_drawing = false;
@@ -108,6 +114,19 @@
 		}
 	};
 
+	/*
+	 * inDrawingMode
+	 */
+	this.inDrawingMode = function() {
+		return _inDrawingMode;
+	};
+
+	/*
+	 * isDrawing
+	 */
+	this.isDrawing = function() {
+		return _drawing;
+	};
 	/*
 	 * Get the shape
 	 */
