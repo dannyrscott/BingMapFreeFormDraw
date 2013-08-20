@@ -1,3 +1,6 @@
+/*! BingMapFFDraw - v0.0.1 - 2013-08-20
+* https://github.com/dannyrscott/BingMapFreeFormDraw
+* Copyright (c) 2013 Danny Scott; Licensed MIT */
 /*! BingMapFFDraw - v0.0.1 - 2013-06-14
 * https://github.com/dannyrscott/BingMapFreeFormDraw
 * Copyright (c) 2013 Danny Scott; Licensed MIT */
@@ -110,7 +113,7 @@
 
 		_shape.setLocations(shapePoints); //Set the points on the new shape
 		_drawing = false; //No longer drawing
-		options.onDrawEnd(); //Run the Callback
+		options.onDrawEnd(_shape); //Run the Callback
 	};
 
 	/*
