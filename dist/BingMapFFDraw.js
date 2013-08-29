@@ -1,4 +1,4 @@
-/*! BingMapFFDraw - v0.0.1 - 2013-08-20
+/*! BingMapFFDraw - v0.0.1 - 2013-08-29
 * https://github.com/dannyrscott/BingMapFreeFormDraw
 * Copyright (c) 2013 Danny Scott; Licensed MIT */
 /*! BingMapFFDraw - v0.0.1 - 2013-06-14
@@ -79,7 +79,7 @@
 			//Attempt to convert MM Point into MM.Location
 			var loc;
 			try {
-				loc = e.target.tryPixelToLocation(point);
+				loc = _map.tryPixelToLocation(point);  //Always use the map itself, this allows drawing over other layers and polygons
 			} catch(err) {
 				loc = false;
 			}
